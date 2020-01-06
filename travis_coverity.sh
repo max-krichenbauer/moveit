@@ -384,38 +384,38 @@ build_workspace
 # test_workspace
 # Allow to verify ccache usage
 # travis_run --title "ccache statistics" ccache -s
-'''
-# Run all remaining tests
-for t in $(unify_list " ,;" "$TEST") ; do
-   case "$t" in
-      clang-tidy-fix)
-         (source ${MOVEIT_CI_DIR}/check_clang_tidy.sh)
-         test $? -eq 0 || result=$(( ${result:-0} + 1 ))
-         ;;
-      abi)
-         (source ${MOVEIT_CI_DIR}/check_abi.sh)
-         test $? -eq 0 || result=$(( ${result:-0} + 1 ))
-         ;;
-      code-coverage)
-         travis_fold start codecov.io "Generate and upload code coverage report"
-         # Capture coverage info
-         travis_run "lcov --capture --directory $ROS_WS --output-file coverage.info | grep -ve '^Processing'"
-         # Extract repository files
-         travis_run "lcov --extract coverage.info \"$ROS_WS/src/$REPOSITORY_NAME/*\" --output-file coverage.info | grep -ve '^Extracting'"
-         # Filter out test files
-         travis_run "lcov --remove coverage.info '*/test/*' --output-file coverage.info | grep -ve '^Removing'"
-         # Output coverage data for debugging
-         travis_run "lcov --list coverage.info"
-         # Upload to codecov.io: -f specifies file(s) to upload and disables manual coverage gathering
-         travis_run --title "Upload report" bash <(curl -s https://codecov.io/bash) -f coverage.info -R $ROS_WS/src/$REPOSITORY_NAME
-         travis_fold end codecov.io
-         ;;
-   esac
-done
-# Run warnings check
-(source ${MOVEIT_CI_DIR}/check_warnings.sh)
-test $? -eq 0 || result=$(( ${result:-0} + 1 ))
 
-exit ${result:-0}
-'''
+# Run all remaining tests
+# for t in $(unify_list " ,;" "$TEST") ; do
+#    case "$t" in
+#       clang-tidy-fix)
+#          (source ${MOVEIT_CI_DIR}/check_clang_tidy.sh)
+#          test $? -eq 0 || result=$(( ${result:-0} + 1 ))
+#          ;;
+#       abi)
+#          (source ${MOVEIT_CI_DIR}/check_abi.sh)
+#          test $? -eq 0 || result=$(( ${result:-0} + 1 ))
+#          ;;
+#       code-coverage)
+#          travis_fold start codecov.io "Generate and upload code coverage report"
+#          # Capture coverage info
+#          travis_run "lcov --capture --directory $ROS_WS --output-file coverage.info | grep -ve '^Processing'"
+#          # Extract repository files
+#          travis_run "lcov --extract coverage.info \"$ROS_WS/src/$REPOSITORY_NAME/*\" --output-file coverage.info | grep -ve '^Extracting'"
+#          # Filter out test files
+#          travis_run "lcov --remove coverage.info '*/test/*' --output-file coverage.info | grep -ve '^Removing'"
+#          # Output coverage data for debugging
+#          travis_run "lcov --list coverage.info"
+#          # Upload to codecov.io: -f specifies file(s) to upload and disables manual coverage gathering
+#          travis_run --title "Upload report" bash <(curl -s https://codecov.io/bash) -f coverage.info -R $ROS_WS/src/$REPOSITORY_NAME
+#          travis_fold end codecov.io
+#          ;;
+#    esac
+# done
+# # Run warnings check
+# (source ${MOVEIT_CI_DIR}/check_warnings.sh)
+# test $? -eq 0 || result=$(( ${result:-0} + 1 ))
+# 
+# exit ${result:-0}
+
 exit 0
