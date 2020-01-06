@@ -47,7 +47,7 @@ matrix: # Add a separate config to the matrix, using clang as compiler
           build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci"
           # ^ should already be cloned to that location by before_script
           # build_command: "./travis_coverity.sh"
-          build_command: ".moveit_ci/travis.sh"
+          build_command: "cov-build --dir cov-int .moveit_ci/travis.sh"
           branch_pattern: melodic-devel
 
   fast_finish: true  # finish, even if allow-failure-tests still running
