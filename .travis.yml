@@ -44,7 +44,7 @@ matrix: # Add a separate config to the matrix, using clang as compiler
             name: "max-krichenbauer/moveit"
             description: "The MoveIt! Motion Planning Framework"
           notification_email: max@marui-plugin.com
-          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci && cov-configure --comptype clangcc --compiler /usr/bin/clang++-6.0 --template"
+          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci && cov-configure --comptype clangcc --compiler /usr/bin/clang++-6.0"
           # ^ should already be cloned to that location by before_script
           # build_command: "./travis_coverity.sh"
           build_command: "cov-build --dir cov-int .moveit_ci/travis.sh"
@@ -55,6 +55,7 @@ matrix: # Add a separate config to the matrix, using clang as compiler
 # before_script:
 #   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
-# script:
-#   - .moveit_ci/travis.sh
+script:
+  - echo "Compilation performed by Coverity integration only"
+#  - .moveit_ci/travis.sh
 
