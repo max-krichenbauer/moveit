@@ -5,7 +5,7 @@ services:
   - docker
 language: cpp
 cache: ccache
-compiler: gcc
+compiler: clang
 
 env:
   global:
@@ -29,7 +29,7 @@ env:
 matrix: # Add a separate config to the matrix, using clang as compiler
   include:
     # add a config to the matrix using clang as compiler and also test ikfast plugin creation
-    - compiler: gcc
+    - compiler: clang
       env: ROS_REPO=ros-shadow-fixed
            BEFORE_DOCKER_SCRIPT="source moveit_kinematics/test/test_ikfast_plugins.sh"
            CXXFLAGS="-Wall -Wextra -Wwrite-strings -Wunreachable-code -Wpointer-arith -Wredundant-decls -Wno-unused-parameter -Wno-unused-function -Wno-overloaded-virtual"
@@ -44,7 +44,7 @@ matrix: # Add a separate config to the matrix, using clang as compiler
             name: "max-krichenbauer/moveit"
             description: "The MoveIt! Motion Planning Framework"
           notification_email: max@marui-plugin.com
-          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci"
+          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci && cov-configure --comptype clangcc --compiler /usr/bin/clang++-6.0 --template"
           # ^ should already be cloned to that location by before_script
           # build_command: "./travis_coverity.sh"
           build_command: "cov-build --dir cov-int .moveit_ci/travis.sh"
