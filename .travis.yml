@@ -22,9 +22,9 @@ env:
     - secure: "eCUhz17hdQYfuQI9v+I5nWa5Lja97otSdABh9BgF57LIOz9+Ycx5xVMU1iGhUlM6wDJMhlrRyuAkqoo/oiMqzwAn+0+2bn/lVpWGUF3Kb5vfDgYqp2OcpMn1PBEM0pp9wLwIHrN/nthE0a1zAN3Vwnd8OoWYNq9Dw8/rcN6JcYUuD/zu8o/WJJenFfq076tzFr4IEYFgzElxUWQw4lIx4qFVZ2N1FygtwZCZBBNkllKDIvGsJNaB9elJGGG2bpWqy62HhlETrWPp5XLb63xYHq5JX4rlmT5HosHaox3bqrHuToxtyoleuuEnFdhZ2ywCICQVuOKHP9O+uzPvqBGxT60Jr0vAJIDV8g/OOQn85cSHL4FcXyt1zslLSmfR9+wf619719SzQjGWbT3hdNRCDOKnZdA+ADva2nNIPl4f/qWniuSrSqtDeOLko++m+/sH/KumhoyORD2Fs7g0zr3hAQYKttaMXw6vkKU8d02ha+n5/qGNvaZ1vF84gG9/fowdobrwuirPaJn7h5yImkmeA1DC+63eN38dYv9KhX9uC409uSZYs1QqLiQv3VIlKxoafvOHvXvMI1r7zdR8VgX8WmXHyN4t3B6fPPgD7M0zYVkoJR0j4qxUDxw5k5avJxjkSdbg7Ss3s6Gy8BhFHgfYNyKhBBlFeeyf8OnFVsV2ELg="
 
   matrix:
-    - ROS_DISTRO=kinetic
+#    - ROS_DISTRO=kinetic
 #    - TEST="clang-format catkin_lint"
-#    - ROS_DISTRO=melodic
+    - ROS_DISTRO=melodic
 
 matrix: # Add a separate config to the matrix, using clang as compiler
   include:
@@ -44,16 +44,17 @@ matrix: # Add a separate config to the matrix, using clang as compiler
             name: "max-krichenbauer/moveit"
             description: "The MoveIt! Motion Planning Framework"
           notification_email: max@marui-plugin.com
-          # build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci"
+          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci"
           # ^ should already be cloned to that location by before_script
-          build_command: "./travis_coverity.sh"
+          # build_command: "./travis_coverity.sh"
+          build_command: ".moveit_ci/travis.sh"
           branch_pattern: melodic-devel
 
   fast_finish: true  # finish, even if allow-failure-tests still running
 
-before_script:
-  - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
+# before_script:
+#   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
-script:
-  - .moveit_ci/travis.sh
+# script:
+#   - .moveit_ci/travis.sh
 
