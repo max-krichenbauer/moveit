@@ -56,6 +56,6 @@ matrix: # Add a separate config to the matrix, using clang as compiler
 #   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
-  - echo "Compilation performed by Coverity integration only"
+  - cat cov-int/build-log.txt
 #  - .moveit_ci/travis.sh
 
