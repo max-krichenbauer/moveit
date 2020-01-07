@@ -304,7 +304,7 @@ function build_workspace() {
    UPLOAD_URL="https://scan.coverity.com/builds"
    SCAN_URL="https://scan.coverity.com"
    COVERITY_SCAN_PROJECT_NAME="max-krichenbauer/moveit"
-   COVERITY_SCAN_TOKEN="eCUhz17hdQYfuQI9v+I5nWa5Lja97otSdABh9BgF57LIOz9+Ycx5xVMU1iGhUlM6wDJMhlrRyuAkqoo/oiMqzwAn+0+2bn/lVpWGUF3Kb5vfDgYqp2OcpMn1PBEM0pp9wLwIHrN/nthE0a1zAN3Vwnd8OoWYNq9Dw8/rcN6JcYUuD/zu8o/WJJenFfq076tzFr4IEYFgzElxUWQw4lIx4qFVZ2N1FygtwZCZBBNkllKDIvGsJNaB9elJGGG2bpWqy62HhlETrWPp5XLb63xYHq5JX4rlmT5HosHaox3bqrHuToxtyoleuuEnFdhZ2ywCICQVuOKHP9O+uzPvqBGxT60Jr0vAJIDV8g/OOQn85cSHL4FcXyt1zslLSmfR9+wf619719SzQjGWbT3hdNRCDOKnZdA+ADva2nNIPl4f/qWniuSrSqtDeOLko++m+/sH/KumhoyORD2Fs7g0zr3hAQYKttaMXw6vkKU8d02ha+n5/qGNvaZ1vF84gG9/fowdobrwuirPaJn7h5yImkmeA1DC+63eN38dYv9KhX9uC409uSZYs1QqLiQv3VIlKxoafvOHvXvMI1r7zdR8VgX8WmXHyN4t3B6fPPgD7M0zYVkoJR0j4qxUDxw5k5avJxjkSdbg7Ss3s6Gy8BhFHgfYNyKhBBlFeeyf8OnFVsV2ELg="
+   COVERITY_SCAN_TOKEN="-U6B3v5pgzHaptUDAJBNKA"
    COVERITY_SCAN_NOTIFICATION_EMAIL="max@marui-plugin.com"
 
    if [ ! -e $TOOL_ARCHIVE ]; then
