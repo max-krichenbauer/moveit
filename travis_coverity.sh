@@ -103,7 +103,8 @@ function run_docker() {
         -v ${CCACHE_DIR:-$HOME/.ccache}:/root/.ccache \
         -t \
         -w /root/$REPOSITORY_NAME \
-        $DOCKER_IMAGE /root/$REPOSITORY_NAME/.moveit_ci/travis.sh)
+        $DOCKER_IMAGE /root/$REPOSITORY_NAME/travis_coverity.sh)
+    #    $DOCKER_IMAGE /root/$REPOSITORY_NAME/.moveit_ci/travis.sh)
 
     # detect user inside container
     local docker_image
