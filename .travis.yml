@@ -52,7 +52,7 @@ matrix: # Add a separate config to the matrix, using clang as compiler
 
   fast_finish: true  # finish, even if allow-failure-tests still running
 
-# before_script:
+before_script:
   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
