@@ -326,7 +326,7 @@ function build_workspace() {
    echo -e "\033[33;1mConfiguring Coverity Scan Analysis Tool...\033[0m"
    cov-configure --clang
    echo -e "\033[33;1mRunning Coverity Scan Analysis Tool...\033[0m"
-   cov-build --dir cov-int catkin build --no-status --summarize ${PKG_WHITELIST:-}
+   travis_wait cov-build --dir cov-int catkin build --no-status --summarize ${PKG_WHITELIST:-}
    echo -e "\033[33;1mTarring Coverity Scan Analysis results...\033[0m"
    RESULTS_ARCHIVE=analysis-results.tgz
    tar czf $RESULTS_ARCHIVE cov-int
