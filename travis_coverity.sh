@@ -386,7 +386,7 @@ function test_workspace() {
 # To not clutter normal builds, we just create a CATKIN_IGNORE file in that folder.
 # A unit test can be recognized from the presence of the environment variable $TEST_PKG (see unit_tests.sh)
 
-f [ -z "${TEST_PKG:-}" ]; then
+if [ -z "${TEST_PKG:-}" ]; then
  touch ${MOVEIT_CI_DIR}/test_pkgs/CATKIN_IGNORE # not a unit test build
 fi
 
