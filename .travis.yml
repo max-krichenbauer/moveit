@@ -38,24 +38,25 @@ matrix: # Add a separate config to the matrix, using clang as compiler
         - melodic-devel
       before_install:
         - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-      addons:
-        coverity_scan:
-          project:
-            name: "max-krichenbauer/moveit"
-            description: "The MoveIt! Motion Planning Framework"
-          notification_email: max@marui-plugin.com
-          build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci && cov-configure --clang"
-          # ^ should already be cloned to that location by before_script
-          # build_command: "./travis_coverity.sh"
-          build_command: "cov-build --dir cov-int .moveit_ci/travis.sh"
-          branch_pattern: melodic-devel
+      # addons:
+      #   coverity_scan:
+      #     project:
+      #       name: "max-krichenbauer/moveit"
+      #       description: "The MoveIt! Motion Planning Framework"
+      #     notification_email: max@marui-plugin.com
+      #     build_command_prepend: "git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci && cov-configure --clang"
+      #     # ^ should already be cloned to that location by before_script
+      #     build_command: "./travis_coverity.sh"
+      #     # build_command: "cov-build --dir cov-int .moveit_ci/travis.sh"
+      #     branch_pattern: melodic-devel
 
   fast_finish: true  # finish, even if allow-failure-tests still running
 
 # before_script:
-#   - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
+  - git clone -q --depth=1 https://github.com/ros-planning/moveit_ci.git .moveit_ci
 
 script:
-  - cat cov-int/build-log.txt
+  - ./travis_coverity.sh
+#  - cat cov-int/build-log.txt
 #  - .moveit_ci/travis.sh
 

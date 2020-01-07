@@ -294,7 +294,53 @@ function build_workspace() {
    export PYTHONIOENCODING=UTF-8
 
    # For a command that doesn’t produce output for more than 10 minutes, prefix it with travis_run_wait
-   travis_run_wait 60 --title "catkin build" catkin build --no-status --summarize ${PKG_WHITELIST:-}
+   # travis_run_wait 60 --title "catkin build" catkin build --no-status --summarize ${PKG_WHITELIST:-}
+
+   PLATFORM=`uname`
+   TOOL_ARCHIVE=/tmp/cov-analysis-${PLATFORM}.tgz
+   TOOL_URL=https://scan.coverity.com/download/${PLATFORM}
+   TOOL_BASE=/tmp/coverity-scan-analysis
+   UPLOAD_URL="https://scan.coverity.com/builds"
+   SCAN_URL="https://scan.coverity.com"
+
+   if [ ! -e $TOOL_ARCHIVE ]; then
+    echo -e "\033[33;1mDownloading Coverity Scan Analysis Tool...\033[0m"
+    wget -nv -O $TOOL_ARCHIVE $TOOL_URL --post-data "project=$COVERITY_SCAN_PROJECT_NAME&token=$COVERITY_SCAN_TOKEN"
+   fi
+
+   # Extract Coverity Scan Analysis Tool
+   echo -e "\033[33;1mExtracting Coverity Scan Analysis Tool...\033[0m"
+   mkdir -p $TOOL_BASE
+   pushd $TOOL_BASE
+    tar xzf $TOOL_ARCHIVE
+   popd
+   
+   TOOL_DIR=`find $TOOL_BASE -type d -name 'cov-analysis*'`
+   export PATH=$TOOL_DIR/bin:$PATH
+
+   echo -e "\033[33;1mConfiguring Coverity Scan Analysis Tool...\033[0m"
+   cov-configure --clang
+   echo -e "\033[33;1mRunning Coverity Scan Analysis Tool...\033[0m"
+   cov-build --dir cov-int catkin build --no-status --summarize ${PKG_WHITELIST:-}
+   echo -e "\033[33;1mTarring Coverity Scan Analysis results...\033[0m"
+   RESULTS_ARCHIVE=analysis-results.tgz
+   tar czf $RESULTS_ARCHIVE cov-int
+   SHA=`git rev-parse --short HEAD`
+   echo -e "\033[33;1mUploading Coverity Scan Analysis results...\033[0m"
+   response=$(curl \
+     --silent --write-out "\n%{http_code}\n" \
+     --form project=$COVERITY_SCAN_PROJECT_NAME \
+     --form token=$COVERITY_SCAN_TOKEN \
+     --form email=$COVERITY_SCAN_NOTIFICATION_EMAIL \
+     --form file=@$RESULTS_ARCHIVE \
+     --form version=$SHA \
+     --form description="Travis CI build" \
+     $UPLOAD_URL)
+   status_code=$(echo "$response" | sed -n '$p')
+   if [ "$status_code" != "201" ]; then
+    TEXT=$(echo "$response" | sed '$d')
+    echo -e "\033[33;1mCoverity Scan upload failed: $TEXT.\033[0m"
+   fi
 }
 
 function test_workspace() {
@@ -374,10 +420,10 @@ travis_run --title "CXX compiler info" $CXX --version
 export CFLAGS
 export CXXFLAGS
 
-# update_system
-# setup_ssh_keys
-# run_xvfb
-# prepare_ros_workspace
+update_system
+setup_ssh_keys
+run_xvfb
+prepare_ros_workspace
 # run_early_tests
 
 build_workspace
