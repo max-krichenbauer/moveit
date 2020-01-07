@@ -322,7 +322,7 @@ function build_workspace() {
    TOOL_DIR=`find $TOOL_BASE -type d -name 'cov-analysis*'`
    export PATH=$TOOL_DIR/bin:$PATH
    ARCH=`arch`
-   sudo ln -s $TOOL_DIR/bin/libcapture-linux64-$ARCH.so $TOOL_DIR/bin/libcapture-linux64-\\\${PLATFORM}.so
+   ln -v -s $TOOL_DIR/bin/libcapture-linux64-$ARCH.so $TOOL_DIR/bin/libcapture-linux64-\\\${PLATFORM}.so
    echo -e "\033[33;1mConfiguring Coverity Scan Analysis Tool...\033[0m"
    cov-configure --clang
    echo -e "\033[33;1mRunning Coverity Scan Analysis Tool...\033[0m"
